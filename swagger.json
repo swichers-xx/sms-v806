@@ -1,0 +1,165 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "PSMS API",
+    "version": "1.0.0",
+    "description": "API for managing SMS and MMS messages via Twilio for the PSMS application."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3006/api",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "get": {
+        "summary": "Registration page",
+        "responses": {
+          "200": {
+            "description": "The registration page"
+          }
+        }
+      },
+      "post": {
+        "summary": "Register a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {"type": "string"},
+                  "password": {"type": "string"}
+                },
+                "required": ["username", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "302": {
+            "description": "Redirects to the login page upon successful registration"
+          },
+          "500": {
+            "description": "Registration error"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "get": {
+        "summary": "Login page",
+        "responses": {
+          "200": {
+            "description": "The login page"
+          }
+        }
+      },
+      "post": {
+        "summary": "Authenticate a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {"type": "string"},
+                  "password": {"type": "string"}
+                },
+                "required": ["username", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "302": {
+            "description": "Redirects to the home page upon successful login"
+          },
+          "400": {
+            "description": "User not found or password is incorrect"
+          },
+          "500": {
+            "description": "Login error"
+          }
+        }
+      }
+    },
+    "/statistics/{projectId}": {
+      "get": {
+        "summary": "Fetches messaging statistics for a specific project",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the project to fetch statistics for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully fetched statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalMessagesSent": {"type": "integer"},
+                    "totalMessagesDelivered": {"type": "integer"},
+                    "totalResponsesReceived": {"type": "integer"}
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid project ID"
+          },
+          "500": {
+            "description": "Error fetching statistics"
+          }
+        }
+      }
+    },
+    "/conversations/{projectId}": {
+      "get": {
+        "summary": "Fetches all conversations for a specific project",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the project to fetch conversations for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully fetched conversations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid project ID"
+          },
+          "500": {
+            "description": "Error fetching conversations"
+          }
+        }
+      }
+    }
+  }
+}

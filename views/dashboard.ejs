@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body>
+  <%- include('partials/_header.ejs') %>
+  <main role="main" class="container mt-4">
+    <div class="row mb-4">
+      <div class="col-md-8">
+        <h1>Dashboard</h1>
+      </div>
+      <div class="col-md-4 text-end">
+        <a href="/project/create" class="btn btn-primary">
+          <i class="fas fa-plus"></i> New Project
+        </a>
+      </div>
+    </div>
+
+    <!-- Overall Statistics -->
+    <div class="row mb-4">
+      <div class="col-md-3">
+        <div class="card bg-primary text-white">
+          <div class="card-body">
+            <h5 class="card-title">Projects</h5>
+            <h2><%= stats.totalProjects %></h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card bg-success text-white">
+          <div class="card-body">
+            <h5 class="card-title">Contacts</h5>
+            <h2><%= stats.totalContacts %></h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card bg-info text-white">
+          <div class="card-body">
+            <h5 class="card-title">Conversations</h5>
+            <h2><%= stats.totalConversations %></h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card bg-warning text-white">
+          <div class="card-body">
+            <h5 class="card-title">Messages</h5>
+            <h2><%= stats.totalMessages %></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projects List -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Your Projects</h5>
+          </div>
+          <div class="card-body">
+            <% if (projects && projects.length > 0) { %>
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Project Name</th>
+                      <th>Contacts</th>
+                      <th>Conversations</th>
+                      <th>Messages</th>
+                      <th>Created</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% projects.forEach(project => { %>
+                      <tr>
+                        <td><%= project.name %></td>
+                        <td><%= project.contactCount %></td>
+                        <td><%= project.conversationCount %></td>
+                        <td><%= project.messageCount %></td>
+                        <td><%= new Date(project.createdAt).toLocaleDateString() %></td>
+                        <td>
+                          <div class="btn-group">
+                            <a href="/project/<%= project._id %>/details" class="btn btn-sm btn-outline-primary">
+                              <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="/project/<%= project._id %>/sendMessage" class="btn btn-sm btn-outline-success">
+                              <i class="fas fa-paper-plane"></i>
+                            </a>
+                            <a href="/project/<%= project._id %>/inbox" class="btn btn-sm btn-outline-info">
+                              <i class="fas fa-inbox"></i>
+                            </a>
+                            <a href="/project/<%= project._id %>/reports" class="btn btn-sm btn-outline-secondary">
+                              <i class="fas fa-chart-bar"></i>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
+            <% } else { %>
+              <div class="text-center py-4">
+                <i class="fas fa-project-diagram fa-3x text-muted mb-3"></i>
+                <h5>No Projects Yet</h5>
+                <p class="text-muted">Create your first project to get started</p>
+                <a href="/project/create" class="btn btn-primary">
+                  <i class="fas fa-plus"></i> Create Project
+                </a>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Quick Actions</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3">
+                <a href="/project/dispatch" class="btn btn-outline-primary btn-block w-100 mb-2">
+                  <i class="fas fa-paper-plane"></i> Dispatch Messages
+                </a>
+              </div>
+              <div class="col-md-3">
+                <a href="/template/create" class="btn btn-outline-success btn-block w-100 mb-2">
+                  <i class="fas fa-file-alt"></i> Create Template
+                </a>
+              </div>
+              <div class="col-md-3">
+                <a href="/project/purchaseOriginationNumber" class="btn btn-outline-info btn-block w-100 mb-2">
+                  <i class="fas fa-phone"></i> Purchase Number
+                </a>
+              </div>
+              <div class="col-md-3">
+                <a href="/project/setRotationSchedule" class="btn btn-outline-warning btn-block w-100 mb-2">
+                  <i class="fas fa-clock"></i> Set Schedule
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <%- include('partials/_footer.ejs') %>
+
+  <script>
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  </script>
+</body>
+</html>

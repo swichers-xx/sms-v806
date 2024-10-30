@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body>
+<%- include('partials/_header.ejs') %>
+<main role="main" class="container mt-4">
+    <h2>Create Custom Message Template</h2>
+    <form id="templateForm" action="/createCustomTemplate" method="post">
+        <div class="mb-3">
+            <label for="projectId" class="form-label">Project ID</label>
+            <input type="text" class="form-control" id="projectId" name="projectId" value="<%= projectId %>" required>
+        </div>
+        <div id="blocksContainer">
+            <div class="mb-3 block">
+                <label for="blockType" class="form-label">Block Type</label>
+                <select class="form-select" id="blockType" name="blocks[0][type]" required>
+                    <option value="">Select a Type</option>
+                    <option value="greeting">Greeting</option>
+                    <option value="identifier">Identifier</option>
+                    <option value="message">Message</option>
+                    <option value="link">Link</option>
+                    <option value="optout">Opt-out</option>
+                </select>
+            </div>
+            <div class="mb-3 block">
+                <label for="blockContent" class="form-label">Block Content</label>
+                <textarea class="form-control" id="blockContent" name="blocks[0][content][]" rows="3" placeholder="Enter block content" required></textarea>
+            </div>
+        </div>
+        <button type="button" class="btn btn-secondary" id="addBlock">Add Block</button>
+        <button type="submit" class="btn btn-primary">Create Template</button>
+    </form>
+</main>
+<script src="/js/main.js"></script>
+<script>
+    document.getElementById('addBlock').addEventListener('click', function() {
+        const blocksContainer = document.getElementById('blocksContainer');
+        const blockIndex = blocksContainer.querySelectorAll('.block').length;
+        const blockType = `
+            <div class="mb-3 block">
+                <label for="blockType${blockIndex}" class="form-label">Block Type</label>
+                <select class="form-select" id="blockType${blockIndex}" name="blocks[${blockIndex}][type]" required>
+                    <option value="">Select a Type</option>
+                    <option value="greeting">Greeting</option>
+                    <option value="identifier">Identifier</option>
+                    <option value="message">Message</option>
+                    <option value="link">Link</option>
+                    <option value="optout">Opt-out</option>
+                </select>
+            </div>
+        `;
+        const blockContent = `
+            <div class="mb-3 block">
+                <label for="blockContent${blockIndex}" class="form-label">Block Content</label>
+                <textarea class="form-control" id="blockContent${blockIndex}" name="blocks[${blockIndex}][content][]" rows="3" placeholder="Enter block content" required></textarea>
+            </div>
+        `;
+        blocksContainer.insertAdjacentHTML('beforeend', blockType + blockContent);
+    });
+
+    document.getElementById('templateForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Custom template created successfully', data);
+            alert('Custom template created successfully');
+            window.location.href = '/templates';
+        })
+        .catch(error => {
+            console.error('Error creating custom template:', error);
+            alert('Failed to create custom template');
+        });
+    });
+</script>
+</body>
+<%- include('partials/_footer.ejs') %>
+</html>

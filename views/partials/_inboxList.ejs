@@ -1,0 +1,8 @@
+<% conversations.forEach(conversation => { %>
+  <li class="list-group-item">
+    <strong>Contact: </strong><%= conversation.contactId.phone %><br>
+    <strong>Last message: </strong><%= conversation.messages[conversation.messages.length - 1].body %><br>
+    <strong>Status: </strong><%= conversation.messages[conversation.messages.length - 1].status %><br>
+    <strong>Turn: </strong><%= conversation.messages[conversation.messages.length - 1].direction === 'inbound' ? 'Your turn' : 'Their turn' %>
+  </li>
+<% }); %>

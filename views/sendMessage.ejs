@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body>
+<%- include('partials/_header.ejs') %>
+<main role="main" class="container mt-4">
+    <h2>Send Messages</h2>
+    <form id="sendMessageForm">
+        <div class="mb-3">
+            <label for="messageTemplate" class="form-label">Message Template</label>
+            <select class="form-select" id="messageTemplate" required>
+                <option value="">Select a Template</option>
+                <% templates.forEach(template => { %>
+                <option value="<%= template._id %>"><%= template.content %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="customMessage" class="form-label">Or Write a Custom Message</label>
+            <textarea class="form-control" id="customMessage" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <button type="button" class="btn btn-secondary" id="saveTemplateBtn">Save as Template</button>
+        </div>
+        <input type="hidden" id="projectId" value="<%= projectId %>"/>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+</main>0.
+
+<script src="/js/sendMessage.js"></script>
+<script>
+    document.getElementById('sendMessageForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const projectId = document.getElementById('projectId').value;
+        const templateId = document.getElementById('messageTemplate').value;
+        const customMessage = document.getElementById('customMessage').value;
+        const body = templateId ? { templateId } : { message: customMessage };
+
+        fetch(`/project/${projectId}/dispatchMessages`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Message sent successfully', data);
+            alert('Message sent successfully');
+        })
+        .catch(error => {
+            console.error('Error sending message:', error);
+            alert('Failed to send message');
+        });
+    });
+
+    document.getElementById('saveTemplateBtn').addEventListener('click', function() {
+        const projectId = document.getElementById('projectId').value;
+        const templateContent = document.getElementById('customMessage').value;
+        if (!templateContent) {
+            alert('Template content cannot be empty.');
+            return;
+        }
+        const templateName = prompt('Enter a name for the new template:');
+        if (!templateName) {
+            alert('Template name is required.');
+            return;
+        }
+
+        fetch(`/project/${projectId}/saveTemplate`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ templateName, templateContent }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Template saved successfully', data);
+            alert('Template saved successfully');
+        })
+        .catch(error => {
+            console.error('Error saving template:', error);
+            alert('Failed to save template');
+        });
+    });
+</script>
+</body>
+<%- include('partials/_footer.ejs') %>
+</html>

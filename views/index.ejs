@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+
+  <body>
+    <%- include('partials/_header.ejs') %>
+      <main role="main" class="container mt-4">
+        <div class="text-center mb-5">
+          <h1 class="display-4">Project SMS Management System</h1>
+          <p class="lead">Streamline your SMS communications with powerful project management tools</p>
+        </div>
+
+        <div class="row mb-5">
+          <div class="col-md-4">
+            <div class="card h-100">
+              <div class                                                  ="card-body">
+                <h5 class="card-title"><i class="fas fa-project-diagram"></i> Project Management</h5>
+                <p class="card-text">Create and manage multiple SMS campaigns with ease. Import contacts via CSV and
+                  organize your messaging projects efficiently.</p>
+                <a href="/create" class="btn btn-primary">Create Project</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-comments"></i> Messaging</h5>
+                <p class="card-text">Send bulk messages, create templates, and track delivery status. Manage
+                  conversations in real-time through our intuitive inbox.</p>
+                <a href="/project/:projectId/inbox" class="btn btn-primary">Inbox</a>
+                <a href="/project/:projectId/sendMessage" class="btn btn-primary">Send Message</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-chart-bar"></i> Analytics</h5>
+                <p class="card-text">Generate detailed reports on message delivery, response rates, and campaign
+                  performance. Make data-driven decisions.</p>
+                <a href="/project/:projectId/reports" class="btn btn-primary">View Reports</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-5">
+          <div class="col-md-6 offset-md-3 text-center">
+            <h3>Get Started Today</h3>
+            <p class="mb-4">Join our platform and revolutionize your SMS communication strategy</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+              <a href="/auth/register" class="btn btn-primary btn-lg px-4 gap-3">Register Now</a>
+              <a href="/auth/login" class="btn btn-outline-secondary btn-lg px-4">Login</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8 offset-md-2">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title text-center mb-4">Key Features</h4>
+                <div class="row">
+                  <div class="col-md-6">
+                    <ul class="list-unstyled">
+                      <li><i class="fas fa-check text-success"></i> Bulk SMS Campaigns</li>
+                      <li><i class="fas fa-check text-success"></i> Contact Management</li>
+                      <li><i class="fas fa-check text-success"></i> Message Templates</li>
+                    </ul>
+                  </div>
+                  <div class="col-md-6">
+                    <ul class="list-unstyled">
+                      <li><i class="fas fa-check text-success"></i> Real-time Tracking</li>
+                      <li><i class="fas fa-check text-success"></i> CSV Import/Export</li>
+                      <li><i class="fas fa-check text-success"></i> Detailed Analytics</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <%- include('partials/_footer.ejs') %>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <script src="/js/main.js"></script>
+  </body>
+
+</html>

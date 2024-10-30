@@ -1,0 +1,42 @@
+<footer class="bg-light mt-5 py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <h5>PSMS</h5>
+        <p class="text-muted">Project SMS Management System - Streamline your SMS communications with powerful project management tools.</p>
+      </div>
+      <div class="col-md-4 mb-3">
+        <h5>Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="/" class="text-decoration-none">Home</a></li>
+          <% if (session && session.userId) { %>
+            <li><a href="/dashboard" class="text-decoration-none">Dashboard</a></li>
+            <li><a href="/createProject" class="text-decoration-none">Create Project</a></li>
+            <li><a href="/dispatch" class="text-decoration-none">Dispatch Messages</a></li>
+          <% } else { %>
+            <li><a href="/login" class="text-decoration-none">Login</a></li>
+            <li><a href="/register" class="text-decoration-none">Register</a></li>
+          <% } %>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-3">
+        <h5>Contact</h5>
+        <ul class="list-unstyled">
+          <li><i class="fas fa-envelope me-2"></i>support@psms.com</li>
+          <li><i class="fas fa-phone me-2"></i>(555) 123-4567</li>
+        </ul>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-6 text-center text-md-start">
+        <p class="mb-0">&copy; <%= new Date().getFullYear() %> PSMS. All rights reserved.</p>
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <a href="/privacy" class="text-decoration-none me-3">Privacy Policy</a>
+        <a href="/terms" class="text-decoration-none me-3">Terms of Service</a>
+        <a href="/contact" class="text-decoration-none">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</footer>

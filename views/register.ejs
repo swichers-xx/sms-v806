@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body class="bg-light">
+  <%- include('partials/_header.ejs') %>
+  <main role="main">
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+          <div class="card shadow-sm">
+            <div class="card-body p-4">
+              <h2 class="text-center mb-4">Create Account</h2>
+              
+              <% if (typeof error !== 'undefined' && error) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <%= error %>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              <% } %>
+
+              <form action="/auth/register" method="POST">
+                <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="fas fa-user"></i>
+                    </span>
+                    <input 
+                      type="text" 
+                      id="username"
+                      name="username" 
+                      class="form-control" 
+                      placeholder="Choose a username"
+                      value="<%= typeof username !== 'undefined' ? username : '' %>"
+                      required
+                      autocomplete="username"
+                    >
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="password" class="form-label">Password</label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="fas fa-lock"></i>
+                    </span>
+                    <input 
+                      type="password" 
+                      id="password"
+                      name="password" 
+                      class="form-control" 
+                      placeholder="Create a password"
+                      required
+                      minlength="6"
+                      autocomplete="new-password"
+                    >
+                  </div>
+                  <div class="form-text">Password must be at least 6 characters long</div>
+                </div>
+
+                <div class="d-grid gap-2">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>Register
+                  </button>
+                </div>
+
+                <div class="text-center mt-4">
+                  Already have an account? 
+                  <a href="/auth/login" class="text-decoration-none">
+                    Login here
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <%- include('partials/_footer.ejs') %>
+</body>
+</html>

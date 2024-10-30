@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+  <body>
+    <%- include('partials/_header.ejs') %>
+    <main role="main" class="container mt-4">
+      <h2>Project Conversations</h2>
+      <ul class="list-group">
+        <% conversations.forEach(conversation => { %>
+          <li class="list-group-item">
+            <strong>Contact: </strong><%= conversation.contactId.phone %><br>
+            <strong>Last message: </strong><%= conversation.messages[conversation.messages.length - 1].body %><br>
+            <strong>Status: </strong><%= conversation.messages[conversation.messages.length - 1].status %><br>
+            <strong>Turn: </strong><%= conversation.turn %>
+          </li>
+        <% }); %>
+      </ul>
+    </main>
+    <script src="/js/inbox.js"></script>
+  </body>
+<%- include('partials/_footer.ejs') %>
+</html>

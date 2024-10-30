@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Reports</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Generate Reports</h2>
+        <p>Select the type of report you want to generate for this project.</p>
+        <div class="row">
+            <div class="col-md-6">
+                <form action="/project/<%= projectId %>/reports/messageDelivery" method="post">
+                    <button type="submit" class="btn btn-primary">Message Delivery Report</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <form action="/project/<%= projectId %>/reports/conversationSummary" method="post">
+                    <button type="submit" class="btn btn-primary">Conversation Summary Report</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

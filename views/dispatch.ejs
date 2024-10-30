@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+  <body>
+<%- include('partials/_header.ejs') %>
+    <main role="main" class="container mt-4">
+      <h2>Dispatch Messages</h2>
+      <form id="messageDispatchForm">
+        <div class="mb-3">
+          <label for="projectSelect" class="form-label">Select Project</label>
+          <select id="projectSelect" class="form-select" aria-label="Select Project" required>
+            <option value="" selected>Select a Project</option>
+            <% projects.forEach(project => { %>
+              <option value="<%= project._id %>"><%= project.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="templateSelect" class="form-label">Select Template</label>
+          <select id="templateSelect" class="form-select" aria-label="Select Template" required>
+            <option value="" selected>Select a Template</option>
+            <!-- Templates will be loaded dynamically based on the selected project -->
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="messagePreview" class="form-label">Message Preview</label>
+          <textarea id="messagePreview" class="form-control" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Confirm and Send</button>
+      </form>
+      <div id="statisticsSection" class="mt-4">
+        <h3>Live Dialing Statistics</h3>
+        <p>Total Messages Sent: <span id="totalMessagesSent">0</span></p>
+        <p>Total Messages Delivered: <span id="totalMessagesDelivered">0</span></p>
+        <p>Total Responses Received: <span id="totalResponsesReceived">0</span></p>
+      </div>
+      <input type="hidden" id="projectId" value="" />
+      <% projects.forEach(project => { %>
+        <div class="project-actions mt-2">
+          <a href="/project/<%= project._id %>/details" class="btn btn-info">View <%= project.name %> Details</a>
+          <a href="/project/<%= project._id %>/sendMessage" class="btn btn-primary">Send Messages</a>
+        </div>
+      <% }); %>
+    </main>
+    <script src="/js/dispatch.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const projectSelect = document.getElementById('projectSelect');
+        const templateSelect = document.getElementById('templateSelect');
+        const messagePreview = document.getElementById('messagePreview');
+
+        projectSelect.addEventListener('change', function() {
+          const projectId = projectSelect.value;
+          fetch(`/api/templates/${projectId}`)
+            .then(response => response.json())
+            .then(data => {
+              templateSelect.innerHTML = '<option value="" selected>Select a Template</option>';
+              data.templates.forEach(template => {
+                const option = document.createElement('option');
+                option.value = template._id;
+                option.textContent = template.name; // Template name for display
+                option.dataset.content = template.content; // Store template content in data attribute
+                templateSelect.appendChild(option);
+              });
+            })
+            .catch(error => {
+              console.error('Error fetching templates:', error);
+              alert('Failed to load templates. Please try again.');
+            });
+        });
+
+        templateSelect.addEventListener('change', function() {
+          const selectedOption = templateSelect.options[templateSelect.selectedIndex];
+          const templateContent = selectedOption.dataset.content; // Retrieve template content from data attribute
+          if (templateContent) {
+            messagePreview.value = templateContent;
+          }
+        });
+
+        messagePreview.addEventListener('input', function() {
+          // This event listener is for any manual edits to the message preview
+        });
+
+        document.getElementById('messageDispatchForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          // Add logic to handle form submission, including sending the message
+          // and updating the live dialing statistics.
+        });
+      });
+    </script>
+  </body>
+<%- include('partials/_footer.ejs') %>
+</html>
